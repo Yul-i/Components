@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>document</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        nav{
+            position: fixed;
+            top: 50%; transform: translateY(-50%);
+            right: 0;
+            width: 50px;
+            height: 600px;
+        }
+        nav button{
+            width: 50px;
+            height: 150px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background: #ffffff;
+            color: #555555;
+        }
+        nav button.active{
+            font-weight: bold;
+            color: hotpink;
+            font-size: 1.2em;
+        }
+        nav .bar{
+            position: absolute;
+            top: 0; right: 0;
+            width: 4px; height: 150px;
+            background: hotpink;
+        }
+
+        section{}
+        article{height: 100vh;}
+        article.a{background: lightpink;}
+        article.b{background: lightsalmon;}
+        article.c{background: lightgoldenrodyellow;}
+        article.d{background: lightskyblue;}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            var aPositionTop=$('.a').offset().top;
+            var bPositionTop=$('.b').offset().top;
+            var cPositionTop=$('.c').offset().top;
+            var dPositionTop=$('.d').offset().top;
+            
+            // var btnAPositionTop=$('.btnA').offset().top;
+            // var btnBPositionTop=$('.btnB').offset().top;
+            // var btnCPositionTop=$('.btnC').offset().top;
+            // var btnDPositionTop=$('.btnD').offset().top;
+
+            // console.log(btnAPositionTop);
+            // console.log(btnBPositionTop);
+            // console.log(btnCPositionTop);
+            // console.log(btnDPositionTop);
+            
+            
+            
+            
+
+            var barPositionTop=$('.bar').offset().top;
+
+            $(window).scroll(function() {
+                var scrollTop=$(this).scrollTop();
+
+                if(bPositionTop<scrollTop){
+                    $('.bar').stop(true).animate({
+                        top:150
+                    },300)
+                }else if(cPositionTop<scrollTop<dPositionTop) {
+                    $('.bar').stop(true).animate({
+                        top:150
+                    },300)
+                }else if(dPositionTop<scrollTop){
+                    $('.bar').stop(true).animate({
+                        top:150
+                    },300)
+                }
+            })
+            
+            
+            
+        })
+    </script>
+</head>
+<body>
+    <nav>
+        <button class="active btnA">A</button>
+        <button class="btnB">B</button>
+        <button class="btnC">C</button>
+        <button class="btnD">D</button>
+        <span class="bar"></span>
+    </nav>
+    <section>
+        <article class="a"></article>
+        <article class="b"></article>
+        <article class="c"></article>
+        <article class="d"></article>
+    </section>
+</body>
+</html>

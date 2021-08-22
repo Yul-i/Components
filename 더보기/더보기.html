@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>document</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        .container{
+            width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+        .h2{line-height: 50px;}
+        .gallery{overflow: hidden;}
+        .gallery li{
+            display: none;
+            float: left;
+            width: 50%;
+            list-style: none;
+        }
+        .gallery li img{
+            display: block;
+            width: 100%;
+        }
+        .more{
+            background: #000;
+            color: #ffffff;
+            padding: 10px;
+            border: 0;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            // 처음에 이미지가 두개만 보이게 처리한다.
+            $('.gallery li').slice(0,2).show();
+
+            // 버튼을 눌렀을 때
+            $('.more').click(function() {
+                var btn=$(this);   //this를 마니 쓸거가트면 변수에 담아주자
+                // 버튼의 이름이 더보기이면 이미지를 2개씩 보여준다.
+                if (btn.text()=='더보기') {
+                    // li중 숨겨져있는 대상을 찾아서 0번째부터 2번째 전까지를 찾는다.
+                    $('.gallery li:hidden').slice(0,2).show();
+                    // 숨겨져있는 수가 0이라는 것은 다보여줬다는 뜻이므로
+                    // 버튼의 이름을 접기로 바꾼다.
+                    if ($('.gallery li:hidden').length==0) {
+                        btn.text('접기');
+                    }   
+                }else{
+                // 버튼의 이름이 접기라면 초기상태로 돌아간다. 
+                    $('.gallery li').hide().slice(0,2).show();
+                    btn.text('더보기');
+                }
+               
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Gallery</h2>
+        <ul class="gallery">
+            <li><img src="../img/friends_apeach.jpg" alt=""></li>
+            <li><img src="../img/friends_con.jpg" alt=""></li>
+            <li><img src="../img/friends_frodo.jpg" alt=""></li>
+            <li><img src="../img/friends_jayg.jpg" alt=""></li>
+            <li><img src="../img/friends_muzi.jpg" alt=""></li>
+            <li><img src="../img/friends_neo.jpg" alt=""></li>
+            <li><img src="../img/friends_ryan.jpg" alt=""></li>
+            <li><img src="../img/friends_tube.jpg" alt=""></li>
+        </ul>
+        <button class="more">더보기</button>
+    </div>
+</body>
+</html>

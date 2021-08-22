@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>실시간 검색어</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        a{text-decoration: none; color: #000;}
+        body{
+            background: pink;
+        }
+        section{
+            max-width: 500px;
+            margin: 100px auto; 
+            padding: 30px;
+            background: #ffffff;
+        }
+        h3{
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #000;
+        }
+        .notice{
+            overflow: hidden;
+            height: 30px;
+        }
+        .notice:hover{
+            height: 100%;
+            border-bottom: 1px solid #000;
+        }
+        .notice li{font-weight: bold; line-height: 30px;}
+        .notice li.active{font-weight: bold; color: palevioletred;}
+        .notice li a{font-weight: normal;}
+        .notice li.active a{font-weight: bold; color: palevioletred;}
+        .notice li span{float: right;}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            
+            // 0번 인덱스에 효과 주기
+            $('.notice ul li').eq(0).addClass('active'); 
+
+            // 리스트를 움직이는 함수
+          function move() {
+            //   리스트를 감싸고 있는 ul이 위쪽 방향으로 30px 움직인다.
+              $('.notice ul').stop(true).animate({
+                  'margin-top':-30
+              }
+              ,function() {//다음처리는 애니메이션 효과가 없다.
+                // 애니메이션이 종료된 후 첫번째 리스트를 마지막 위치로 이동
+                $('.notice ul li').first().appendTo('.notice ul');
+                // ul의 상태를 초기화 해야한다. margin-top을 0으로 변경
+                $('.notice ul').css('margin-top',0);
+                $('.notice ul li').removeClass()
+                .eq(0).addClass('active'); 
+              })
+            } 
+          
+     
+            // 2초마다 move함수를 실행하도록 한다.
+            var play=setInterval(move,2000)
+
+            // ul영역에 마우스를 올리면 멈추고 벗어나면 다시 실행
+            $('ul').on({
+            mouseenter:function(){
+            // 플레이 멈춤
+               clearInterval(play);
+            
+            // 리스트 순서대로 나열하기 
+
+
+                // 인덱스 0
+               var index=$('ul li').index('li:first-child');
+            //    console.log('0번 인덱스',index);
+                // 현재 화면에 보여지고 있는 순위의 인덱스 구하기
+               var nowIndex=$('ul li').eq(0).data('index');
+            //    console.log('지금 보여지는 순위 인덱스',nowIndex);
+                // 0번 인덱스 현재 위치
+               var changeIndex=$('[data-index='+index+']').index();
+            //    console.log('0번 인덱스의 현재 위치',changeIndex);
+
+               if (!nowIndex==0) {
+                for (let index = 0; index < changeIndex; index++) {
+                    $('ul li').first().appendTo('ul');
+                    }
+                }
+            },
+        // 
+            mouseleave:function(){
+                // 플레이 재생
+               play=setInterval(move, 2000);
+                
+                
+                // 마우스 on이전의 리스트로 돌아가기
+
+                // 기존에 보이던 페이지 인덱스를 구한다.
+               var resetIndex=$('ul li.active').data('index');
+               console.log('0번 인덱스',resetIndex);
+                // 현재 화면에 보여지고 있는 순위의 인덱스 구하기
+               var nowIndex=$('ul li').eq(0).data('index');
+               console.log('지금 보여지는 순위 인덱스',nowIndex);
+                // 0번 인덱스 현재 위치
+               var changeIndex=$('[data-index='+resetIndex+']').index();
+               console.log('0번 인덱스의 현재 위치',changeIndex);
+
+               if (resetIndex!=nowIndex) {
+                for (let resetIndex = 0; resetIndex < changeIndex; resetIndex++) {
+                    $('ul li').first().appendTo('ul');
+                        }
+                    }
+                }
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+    <section>
+        <h3>실시간 검색어</h3>
+        <div class="notice">
+            <ul>
+                <li data-index="0">1 <a href="#">행복토끼몰랑</a></li>
+                <li data-index="1">2 <a href="#">몰랑이</a></li>
+                <li data-index="2">3 <a href="#">피우피우</a></li>
+                <li data-index="3">4 <a href="#">브라운 몰랑</a></li>
+                <li data-index="4">5 <a href="#">젤리도넛프로젝트</a></li>
+                <li data-index="5">6 <a href="#">순돌이는 오늘도 순돌순돌해</a></li>
+                <li data-index="6">7 <a href="#">구루구루냥 호두</a></li>
+                <li data-index="7">8 <a href="#">크림뽀&베베뽀</a></li>
+                <li data-index="8">9 <a href="#">안녕하세요, 나비씨</a></li>
+                <li data-index="9">10 <a href="#">안녕 난 익명이고 너를 조아해</a></li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>

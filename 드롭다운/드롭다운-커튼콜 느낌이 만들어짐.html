@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>드롭다운</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        button{border: 0;}
+        header{
+            position: relative;
+            height: 100px;
+            background: #000000;
+        }
+
+        footer{
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            bottom: 0;
+            background: #000000;
+        }
+    
+        [class^=drop-]{
+         position: absolute;
+        }
+        [class^=drop-] button{
+            width: 100px; 
+            height: 40px;
+            background: #fff;
+        }
+        [class^=drop-] ul{
+            display: none;
+            position: absolute;
+            width: 100%;
+            background: #ccc;         
+        }
+        [class^=drop-] ul li a{
+            display: block;
+            color:#000;
+            text-decoration: none;
+            line-height: 40px;
+            text-align: center;
+        }
+        [class^=drop-] ul li a.active{
+            background: coral;         
+        }
+            .left{top:20px; left: 20px;}
+            .right{top:20px; right: 20px;}
+            .drop-down ul{top: 40px;}
+            .drop-up ul{bottom: 40px;}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            /*
+                [문제]
+                버튼을 눌렀을 때 드롭다운 또는 드롭업 처리를 하세요.
+            */ 
+
+            $('[class^=drop-] button').click(function() {
+                $(this).next().slideToggle();
+
+                $('[class^=drop-] a').click(function() {
+                    var aText=$(this).text();
+                    console.log(aText);
+                    if($(this).parents().children().hasClass('active')){
+                        $(this).parents().children().removeClass('active');
+                        $(this).parents().children().slideUp();
+                    }else{
+                        $(this).parents().children().hasClass('active')
+                        $(this).parents().children().removeClass('active');
+                        $(this).parents().children().slideUp();
+                       $(this).addClass('active')};
+                       $(this).parents('button').text(aText);
+
+                })
+            })
+            
+        })
+    </script>
+</head>
+<body>
+    <header>
+        <div class="drop-down left">
+            <button>캐릭터선택</button>
+            <ul>
+                <li><a href="#">라이언</a></li>
+                <li><a href="#">어피치</a></li>
+                <li><a href="#">프로도</a></li>
+                <li><a href="#">네오</a></li>
+            </ul>
+        </div>
+
+        <div class="drop-down right">
+            <button>언어선택</button>
+            <ul>
+                <li><a href="#" class="active">한국어</a></li>
+                <li><a href="#">English</a></li>
+                <li><a href="#">日本語</a></li>
+                <li><a href="#">漢語</a></li>
+            </ul>
+        </div>
+    </header>
+    <footer>
+        <div class="drop-up left">
+            <button>캐릭터선택</button>
+            <ul>
+                <li><a href="#">라이언</a></li>
+                <li><a href="#">어피치</a></li>
+                <li><a href="#">프로도</a></li>
+                <li><a href="#">네오</a></li>
+            </ul>
+        </div>
+        <div class="drop-up right">
+            <button>언어선택</button>
+            <ul>
+                <li><a href="#">한국어</a></li>
+                <li><a href="#">English</a></li>
+                <li><a href="#">日本語</a></li>
+                <li><a href="#">漢語</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

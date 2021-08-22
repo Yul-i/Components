@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>팝오버-동적생성</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      section{
+         /* x,y좌표값을 구하는 기준이 되는 부모 */
+         position: relative;
+         width: 800px; 
+         height: 500px;
+         margin: auto;          
+         border:1px solid #000;
+         text-align: center;
+      }
+      h3{
+         padding: 50px 0;
+      }
+      .btn-popover{
+         padding: 10px 20px;
+         border:none;
+         background: #000;
+         color:#fff;
+      }
+      .btn-popover.active{
+         background: coral;
+      }
+      
+      /* 팝오버의 기본 형태 */
+      .popover{       
+         position: absolute;                  
+         padding: 20px;
+         border:1px solid #000; 
+         background: #fff;
+         /* 글자 라인개행 방지 */
+         white-space: nowrap;
+      }
+     
+      /* 화살표를 만들기 위한 공통규칙 */
+      .popover::after{
+         content: '';
+         position: absolute;
+         border:10px solid #000;         
+      }
+      /* 화살표를 만들기 위한 다른규칙 */
+      .popover.left::after{
+         right: -10px;
+         border-color: transparent transparent transparent #000;
+         border-right: 0;
+      }
+      .popover.top::after{
+         bottom: -10px;
+         left: 50%;
+         transform: translateX(-50%);
+         border-color: #000 transparent transparent transparent;
+         border-bottom: 0;
+      }
+      .popover.bottom::after{
+         top: -10px;
+         left: 50%;
+         transform: translateX(-50%);
+         border-color: transparent transparent #000 transparent;
+         border-top: 0;
+      }
+      .popover.right::after{
+         left: -10px;
+         border-color: transparent #000 transparent transparent;
+         border-left: 0;
+      }
+   
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         $('.btn-popover').on({
+            // 클릭했을 때
+            click:function(){
+               // 조건문을 사용하여 현재 내가 누르는 버튼이 활성화 상태인지 아닌지
+               // 검사한 후 활성화 상태라면 팝오버를 제거 
+               // 활성화 상태가 아니면 팝오버를 생성
+
+               // 내가 누른 버튼의 팝오버가 뜰 위치값, 팝오버내용 구하기 
+               var position=$(this).data('position');
+               var content=$(this).data('content');
+
+               if($(this).hasClass('active')){
+                  // 내가누른 버튼이 활성화 상태라면 비활성화 처리하고 
+                  // 해당 팝오버를 제거한다.
+                  $(this).removeClass('active');
+                  $('.popover.'+position).remove();
+               }else{
+                  // 내가누른 버튼이 비활성화 상태라면 활성화 처리하고 
+                  // 팝오버를 생성해서 띄워야한다.
+                  $(this).addClass('active');
+                  
+                  // section의 마지막 자식 위치에 붙이기
+                  $('section').append(`<div class="popover ${position}">${content}</div>`);
+
+                  // 좌표값 구해서 팝오버의 위치 설정하기 
+                  var x=$(this).position().left; 
+                  var y=$(this).position().top;
+                  console.log('버튼의 좌표', x, y);
+                  
+                  // 내가 누른 버튼과 관련있는 팝오버의 크기 구하기 (넓이+안쪽여백+테두리)
+                  var popoverW=$('.popover.'+position).outerWidth(); 
+                  var popoverH=$('.popover.'+position).outerHeight(); 
+                  console.log('팝오버의 크기',popoverW, popoverH);
+                  
+                  // 버튼의 크기 구하기 (넓이+안쪽여백)
+                  var btnW=$(this).innerWidth(); 
+                  var btnH=$(this).innerHeight();  
+                  console.log('버튼의 크기',btnW, btnH);
+
+                  // 화살표(10px)와 여백(5px)의 고정 크기 
+                  var arrow=15;
+
+                  /*
+                     [팝오버가 버튼의 가운데 가는 공식]
+                     현재 팝오버는 버튼의 위쪽 왼쪽에 있는 상태이다.
+                     가로방향으로 중앙 가기:버튼의 가로사이즈의 반을 오른쪽으로 이동
+                                          팝오버의 가로사이즈의 반을 왼쪽으로 이동
+                     세로방향으로 중앙 가기:버튼의 세로사이즈의 반을 아래쪽으로 이동 
+                                             팝오버의 세로사이즈의 반을 위쪽으로 이동                        
+                  */ 
+                  var positionX, positionY=0;
+
+                  if(position=='left'){                  
+                     positionX=x-popoverW-arrow;
+                     positionY=y+(btnH/2)-(popoverH/2);                  
+                  }else if(position=='right'){
+                     positionX=x+btnW+arrow;
+                     positionY=y+(btnH/2)-(popoverH/2);
+                  }else if(position=='top'){
+                     positionX=x+(btnW/2)-(popoverW/2);
+                     positionY=y-popoverH-arrow;
+                  }else{
+                     positionX=x+(btnW/2)-(popoverW/2);
+                     positionY=y+btnH+arrow;                  
+                  }
+
+                  // 내가 누른 버튼과 관련있는 팝오버만 위치를 변경한다.
+                  $('.popover.'+position).css({
+                     left:positionX,
+                     top:positionY
+                  })
+               }
+            }                                 
+         })
+      })
+   </script>
+</head>
+<body>
+   <section>
+      <h3>팝오버-동적생성</h3>
+      <button class="btn-popover" data-content="왼쪽에 팝오버가 뜬다." data-position="left">왼쪽</button>
+      <button class="btn-popover" data-content="위쪽에 팝오버가 뜬다." data-position="top">위쪽</button>
+      <button class="btn-popover" data-content="밑쪽에 팝오버가 뜬다." data-position="bottom">밑쪽</button>
+      <button class="btn-popover" data-content="오른쪽에 팝오버가 뜬다." data-position="right">오른쪽</button>
+      <!-- 붙이는 형태는 아래와 같다 -->
+      <!-- <div class="popover left">팝오버의 내용</div> -->
+   </section>
+</body>
+</html>

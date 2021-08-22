@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>프로그레스-가로</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      .container{
+         width: 600px;
+         margin: auto;
+      }
+      .progress{
+         position: relative;
+         border:1px solid #000;
+         background: #eee;
+         height: 20px;
+         margin-top:100px;
+      }
+      .progress .percent{
+         position: absolute;
+         top:-50px;
+         left:0%;
+         transform: translateX(-50%);
+         padding: 10px;
+         background: coral;
+         color:#fff;         
+      }
+      .progress .bar{
+         height: 100%;
+         width: 0%;
+         background: coral;
+      }
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         $('.progress').each(function(){
+            // percent카운트와 이동
+            $(this).find('.percent').animate({
+               // $(this)==.progress
+               left:$(this).data('percent')               
+            },{
+               duration:2000,
+               step:function(now){
+                  now=Math.round(now);
+                  //$(this)==.percent                  
+                  $(this).text(now+'%');
+               }
+            })
+
+            //bar의 넓이 변경
+            $(this).find('.bar').animate({
+               width:$(this).data('percent')
+            },2000)
+         })
+      })
+   </script>
+</head>
+<body>
+   <div class="container">
+      <h2>progress bar - x</h2>
+      <div class="progress" data-percent="100%">
+         <span class="percent">0%</span>
+         <div class="bar"></div>
+      </div>
+      <div class="progress" data-percent="50%">
+         <span class="percent">0%</span>
+         <div class="bar"></div>
+      </div>
+      <div class="progress" data-percent="70%">
+         <span class="percent">0%</span>
+         <div class="bar"></div>
+      </div>
+   </div>
+</body>
+</html>

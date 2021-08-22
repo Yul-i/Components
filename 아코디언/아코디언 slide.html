@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>아코디언</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        a{text-decoration: none; color: #000;}
+        body{max-width: 500px; margin: auto;}
+
+        .accordion{
+            border: 1px solid #000;
+        }
+        .accordion li{
+            border-bottom: 1px solid #000;
+        }
+        .accordion li:last-child{
+            border: none;
+        }
+        .accordion li a{
+            display: block;
+            padding: 10px;
+            background: #eee;
+        }
+        .accordion li.active a{
+            background: salmon;
+            color: #fff;
+        }
+        .accordion li .box{
+            display: none;
+            padding: 10px;
+            border-top: 1px solid #000;
+        }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+
+            /*
+                [문제] accordion a(질문)을 누르면 해당 답변이 보여지도록 하세요.
+                *단 다른 답변은 자동으로 닫혀야 한다.
+
+                slide 효과주기
+            
+            */
+            // $('.accordion a').click(function() {
+            //     $('li, .accordion .box').removeClass('active');
+            //     $(this).parent().addClass('active');
+            //     $('.accordion .box').slideUp();
+            //     $(this).next().slideDown();
+
+            // })
+
+            // 무조건 box하나가 펼쳐지는 구조&현재 내가 누르는 컨텐츠를 접었다 펼쳤다를 할 수 있게 하려면?
+              // hasClass()
+         $('.accordion a').click(function(){
+            if($(this).parent().hasClass('active')){
+               // 모두 초기화
+               $('.accordion li').removeClass(); 
+               $('.accordion .box').slideUp();                            
+            }else{
+               // 모두 초기화된 상태에서 내가 누른컨텐츠는 보여야한다.
+               // 누르지 않은 것은 보이면 안된다.
+               $('.accordion li').removeClass(); 
+               $('.accordion .box').slideUp();
+               $(this).parent().addClass('active');
+               $(this).next().slideDown();
+            }
+         })
+
+        })
+    </script>
+</head>
+<body>
+    <h3>아코디언</h3>
+    <ul class="accordion">
+        <li class="active">
+            <a href="#">질문1</a>
+            <div class="box active">답변 1 입니다.</div>
+        </li>
+        <li>
+            <a href="#">질문2</a>
+            <div class="box">답변 2 입니다.</div>
+        </li>
+        <li>
+            <a href="#">질문3</a>
+            <div class="box">답변 3 입니다.</div>
+        </li>
+    </ul>
+</body>
+</html>

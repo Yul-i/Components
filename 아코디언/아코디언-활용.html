@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>아코디언</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        a{text-decoration: none; color: #000;}
+        body{max-width: 500px; margin: auto;}
+
+        .accordion{
+            border: 1px solid #000;
+        }
+        .accordion li{
+            border-bottom: 1px solid #000;
+        }
+        .accordion li:last-child{
+            border: none;
+        }
+        .accordion li a{
+            position: relative;
+            display: block;
+            padding: 10px 30px;
+            background: #eee;
+        }   
+        .accordion li a::before{
+            content: 'Q';
+            position: absolute;
+            display: block;
+            top: 50%;
+            left: 9px;
+            transform: translateY(-50%);
+            color: salmon;
+        }
+        .accordion li a i{
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            /* transition: 0.5s; */
+        }
+        .accordion li.active a{
+            background: salmon;
+            color: #fff;
+        }
+        .accordion li.active a::before{
+            color: #fff;
+            position: absolute;
+            display: block;
+            top: 50%;
+            left: 9px;
+            transform: translateY(-50%);
+        }
+        /* .accordion li.active a i{
+            transform: translateY(-50%) rotate(180deg);
+        } */
+        .accordion li .box{
+            display: none;
+            padding: 10px;
+            border-top: 1px solid #000;
+        }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+
+            /*
+                [문제] accordion a(질문)을 누르면 해당 답변이 보여지도록 하세요.
+                *단 다른 답변은 자동으로 닫혀야 한다.
+
+            */
+        
+
+        // 첫번째 방법
+            // $('.accordion a').click(function(){
+            //     if($(this).parent().hasClass('active')){
+            //     // 모두 초기화
+            //     $('.accordion li').removeClass();
+            //     $('.accordion .box').slideUp();
+            //     }else{
+            //         // 모두 초기화된 상태에서 내가 누른컨텐츠는 보여야한다.
+            //         // 누르지 않은 것은 보이면 안된다.
+            //         $('.accordion li').removeClass(); 
+            //         $('.accordion .box').slideUp();
+            //         $(this).parent().addClass('active');
+            //         $(this).next().slideDown();
+            //         }
+            // })
+
+        // 두번째 방법
+         $('.accordion a').click(function(){
+            if($(this).parent().hasClass('active')){
+               // 모두 초기화
+               $('.accordion li').removeClass();
+               $('.accordion .box').slideUp();
+               $('.accordion i').removeClass('fa-angle-up').addClass('fa-angle-down');
+            }else{
+               // 모두 초기화된 상태에서 내가 누른컨텐츠는 보여야한다.
+               // 누르지 않은 것은 보이면 안된다.
+               $('.accordion li').removeClass(); 
+               $('.accordion .box').slideUp();
+               $('.accordion i').removeClass('fa-angle-up').addClass('fa-angle-down');
+               $(this).parent().addClass('active');
+               $(this).next().slideDown();
+               $(this).find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+            }
+         })
+
+        })
+    </script>
+</head>
+<body>
+    <h3>아코디언</h3>
+    <ul class="accordion">
+        <li class="active">
+            <a href="#">질문이 엄청나게 길다. 엄청나게 긴데 엄청나게 길어버린 것이다. 어떻게 처리할까 질문이 엄청나게 길다. 엄청나게 긴데 엄청나게 길어버린 것이다. 어떻게 처리할까 질문이 엄청나게 길다. 엄청나게 긴데 엄청나게 길어버린 것이다. 어떻게 처리할까<i class="fas fa-angle-down"></i></a>
+            <div class="box active">답변 1 입니다.</div>
+        </li>
+        <li>
+            <a href="#">질문2<i class="fas fa-angle-down"></i></a>
+            <div class="box">답변 2 입니다.</div>
+        </li>
+        <li>
+            <a href="#">질문3<i class="fas fa-angle-down"></i></a>
+            <div class="box">답변 3 입니다.</div>
+        </li>
+    </ul>
+</body>
+</html>

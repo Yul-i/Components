@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>카테고리 변경</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+             /*
+            캐릭터 - 라이언, 어피치, 프로도, 네오, 무지, 콘, 튜브, 제이지, 니니즈 
+            테마기획전 - 젠틀맨 라이언, 레이지 선데이, 러블리 어피치, 허그미 프렌즈, 리틀 스케치북 
+            인형/피규어 - 미니인형, 중형인형, 대형인형, 키체인 인형, 피규어/브릭
+
+            [문제] 카테고리목록이 3개가 있다. 
+                   카테고리목록 중 하나를 선택하면 
+                   카테고리 결과가 category-result의 옵션으로 나타나도록 하시오.         
+         */
+        
+        //  처음에 실행했을때 
+        //  캐릭터가 기본값이며 category-result의 옵션은 캐릭터의 결과가 나오도록 해야한다.
+
+            var category={
+                category1:['라이언','어피치','프로도','네오','무지','콘','튜브','제이지','니니즈'],
+                category2:['젠틀맨 라이언', '레이지 선데이', '러블리 어피치', '허그미 프렌즈', '리틀 스케치북' ],
+                category3:['미니인형', '중형인형', '대형인형', '키체인 인형', '피규어/브릭']
+            }
+
+
+            // for (let index = 0; index < category.category1.length; index++) {
+            //    $('.category-result').append('<option value="">'+category.category1[index]+'</option>');
+            // }
+
+            // 카테고리의 옵션값이 변할 때 category-result의 안의 옵션을 비우고 새로 갱신.
+            $('.category').change(function() {
+                // 기존의 결과값을 비워준다.
+                // $('.category-result option').remove();
+                $('.category-result').empty();
+
+                // 선택한 카테고리의 결과를 갱신
+                var val=$(this).val();
+                for (let i = 0; i < category[val].length; i++) {
+                $('.category-result').append('<option value="">'+category[val][i]+'</option>');
+                }
+            })
+            // .change();
+            $('.category').trigger('change');
+        })
+    </script>
+</head>
+<body>
+    <label for="category">카테고리</label>
+    <select class="category">
+        <option value="category1">피규어</option>
+        <option value="category2">테마기획전</option>
+        <option value="category3">인형/피규어</option>
+    </select>
+    <select class="category-result">
+    </select>
+</body>
+</html>

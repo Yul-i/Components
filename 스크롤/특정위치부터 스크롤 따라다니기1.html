@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>특정 위치부터 스크롤 따라다니기</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        body{
+            height: 3000px;
+        }
+        .box{
+            position: absolute;
+            right: 10px;
+            top: 400px;
+            width: 200px;
+            height: 200px;
+            background: coral;
+        }
+        .a{height: 100vh; background: lightpink;}/*100vh = 보고 있는 화면만큼 높이 범위 잡기! width: 50vw; 는 넓이 50퍼*/
+        .b{height: 500px; background: lightskyblue;}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            
+            // b영역의 위치값(a영역의 높이값과 동일)
+            var bPositionTop=$('.b').offset().top;
+            // var aHeight=$('.a').height();
+            console.log(bPositionTop);
+            var boxPositionTop=$('.box').offset().top;
+            
+            $(window).scroll(function() {
+                var scrollTop=$(this).scrollTop();
+                
+                // b영역의 위쪽 시작값보다 스크롤y의 값이 더 커진다면
+                // box에 애니메이션 실행하기
+
+                if (bPositionTop<scrollTop) {
+                    $('.box').stop(true).animate({//stop(true)는 클리어처리
+                    top:scrollTop+boxPositionTop
+                },500)
+                }else{//box는 초기 상태로 돌아가야함
+                    $('.box').stop(true).animate({
+                        top:boxPositionTop
+                    },500)
+                    
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="box">박스</div>
+    <article class="a"></article>
+    <article class="b"></article>
+</body>
+</html>

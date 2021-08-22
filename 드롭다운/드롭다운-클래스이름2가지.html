@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>드롭다운</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        button{border: 0;}
+        header{
+            position: relative;
+            height: 100px;
+            background: #000000;
+        }
+
+        footer{
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            bottom: 0;
+            background: #000000;
+        }
+    
+        [class^=drop-]{
+         position: absolute;
+        }
+        [class^=drop-] button{
+            width: 100px; 
+            height: 40px;
+            background: #fff;
+        }
+        [class^=drop-] ul{
+            display: none;
+            position: absolute;
+            width: 100%;
+            background: #ccc;         
+        }
+        [class^=drop-] ul li a{
+            display: block;
+            color:#000;
+            text-decoration: none;
+            line-height: 40px;
+            text-align: center;
+        }
+        [class^=drop-] ul li a.active{
+            background: coral;         
+        }
+            .left{top:20px; left: 20px;}
+            .right{top:20px; right: 20px;}
+            .drop-down ul{top: 40px;}
+            .drop-up ul{bottom: 40px;}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            /*
+                [문제]
+                드롭다운 리스트 목록 중 하나를 누르면(a누르기)
+                1. 내가 누른 목록의 값을 획득해서 button의 값을 변경하고
+                   리스트의 활성화 상태를 변경해야 한다.
+                   펼쳐진 리스트 목록을 접어야한다.
+                2. 내가 누른 목록을 활성화상태로 만들고 다른 목록은 비활성화 
+                펼쳐진 리스트 목록을 접어야한다.
+            */ 
+
+            $('[class^=drop-] button').click(function() {
+                $(this).next().slideToggle();
+            })
+
+            //     $('[class^=drop-] a').click(function() {
+            //         var aText=$(this).text();
+            //         console.log(aText);
+            //         if($(this).parents('li').find('a').hasClass('active')){
+            //             $(this).parents('li').find('a').removeClass('active');
+            //             $(this).parents('ul').slideUp();
+            //         }else{
+            //             $(this).parents('li').find('a').removeClass('active');
+            //             $(this).parents('ul').slideUp();
+            //            $(this).addClass('active')};
+            //            $(this).parents('ul').prev().text(aText);
+
+            //     })
+            // })
+            
+                $('[class^=drop-] a').click(function(){
+                //left클래스를 가진 그룹은 버튼의 내용을 변경해야한다.
+                if($(this).parents('[class^=drop-]').hasClass('left')){
+                var value=$(this).text();
+                $(this).parents('[class^=drop-]').find('button').text(value);               
+                }
+                $(this).parents('[class^=drop-]').find('a').removeClass();
+                $(this).parents('[class^=drop-]').find('ul').slideUp();
+                $(this).addClass('active');
+            })
+        })
+    </script>
+</head>
+<body>
+    <header>
+        <div class="drop-down left">
+            <button>캐릭터선택</button>
+            <ul>
+                <li><a href="#">라이언</a></li>
+                <li><a href="#">어피치</a></li>
+                <li><a href="#">프로도</a></li>
+                <li><a href="#">네오</a></li>
+            </ul>
+        </div>
+
+        <div class="drop-down right">
+            <button>언어선택</button>
+            <ul>
+                <li><a href="#">한국어</a></li>
+                <li><a href="#">English</a></li>
+                <li><a href="#">日本語</a></li>
+                <li><a href="#">漢語</a></li>
+            </ul>
+        </div>
+    </header>
+    <footer>
+        <div class="drop-up left">
+            <button>캐릭터선택</button>
+            <ul>
+                <li><a href="#">라이언</a></li>
+                <li><a href="#">어피치</a></li>
+                <li><a href="#">프로도</a></li>
+                <li><a href="#">네오</a></li>
+            </ul>
+        </div>
+        <div class="drop-up right">
+            <button>언어선택</button>
+            <ul>
+                <li><a href="#">한국어</a></li>
+                <li><a href="#">English</a></li>
+                <li><a href="#">日本語</a></li>
+                <li><a href="#">漢語</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

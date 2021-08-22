@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>툴팁-동적생성</title>
+   <style>
+       *{margin: 0; padding: 0;}
+      section{
+         /* x,y 좌표값을 구하는 기준이 되는 부모 */
+         position: relative;
+         width: 800px; 
+         height: 500px;
+         margin: auto;          
+         border:1px solid #000;
+         text-align: center;
+      }
+      h3{
+         padding: 50px 0;
+      }
+      .btn-tooltip{
+         padding: 10px 20px;
+         border:none;
+         background: #000;
+         color:#fff;
+      }
+      
+      /* 툴팁의 기본 형태 */
+      .tooltip{        
+         position: absolute;         
+         padding: 10px;
+         border:1px solid #000; 
+         background: #fff;
+         /* 글자 라인개행 방지 */
+         white-space: nowrap;
+      }
+     
+      /* 화살표를 만들기 위한 공통규칙 */
+      .tooltip::after{
+         content: '';
+         position: absolute;
+         border:10px solid #000;         
+      }
+      /* 화살표를 만들기 위한 다른규칙 */
+      .tooltip.left::after{
+         right: -10px;
+         border-color: transparent transparent transparent #000;
+         border-right: 0;
+      }
+      .tooltip.top::after{
+         bottom: -10px;
+         left: 50%;
+         transform: translateX(-50%);
+         border-color: #000 transparent transparent transparent;
+         border-bottom: 0;
+      }
+      .tooltip.bottom::after{
+         top: -10px;
+         left: 50%;
+         transform: translateX(-50%);
+         border-color: transparent transparent #000 transparent;
+         border-top: 0;
+      }
+      .tooltip.right::after{
+         left: -10px;
+         border-color: transparent #000 transparent transparent;
+         border-left: 0;
+      }
+
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         $('.btn-tooltip').on({
+            //마우스를 올렸을 때 -툴팁을 생성
+            mouseenter:function() {
+               //마우스를 올렸을 때 위치값, 툴팁내용 구하기
+               var position=$(this).data('position');
+               var content=$(this).data('content');
+
+               //section의 마지막 자식 위치에 붙이기
+               $('section').append('<div class="tooltip'+position+'">'+content+'</div>');
+            },
+            // 마우스를 떼었을 때 -툴팁을 제거
+            mouseleave:function() {
+               $('.tooltip').remove();
+            }
+         })
+      })
+   </script>
+</head>
+<body>
+   <section>
+      <h3>툴팁-동적생성</h3>
+      <!-- 
+         사용자 정의 속성
+         data-속성명 형식으로 만들 수 있다.
+         [사용자 정의 속성 제어 메소드]
+         attr() => attr('data-content') / attr('data-content','새로운 값')
+         data() => data('content') / data('content','새로운 값')
+       -->
+      <button class="btn-tooltip" data-content="왼쪽에 툴팁이 뜬다." data-position="left">왼쪽</button>
+      <button class="btn-tooltip" data-content="위쪽에 툴팁이 뜬다." data-position="top">위쪽</button>
+      <button class="btn-tooltip" data-content="밑쪽에 툴팁이 뜬다." data-position="bottom">밑쪽</button>
+      <button class="btn-tooltip" data-content="오른쪽에 툴팁이 뜬다." data-position="right">오른쪽</button>
+      <!-- 붙이는 형태는 아래와 같다. -->
+      <!-- <div class="tooltip left">툴팁의 내용</div> -->
+   </section>
+</body>
+</html>

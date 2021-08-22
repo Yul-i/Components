@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>더보기-4개씩</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      .container{
+         width: 500px;
+         margin: auto;
+         text-align: center;
+      }
+      h2{line-height: 50px;}
+      .gallery{overflow: hidden;}
+      .gallery li{
+         display: none;
+         float: left;
+         width: 25%;
+         list-style: none;
+      }
+      .gallery li img{
+         display: block;
+         width: 100%;
+      }
+      .more{
+         background: #000;
+         color:#fff;
+         padding: 10px;
+         border:0;
+      }
+
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         /*
+            [문제]
+            이미지를 한줄에 4개씩 보여주도록 설정하고 
+            더보기를 누르면 4개씩 노출되도록 처리하고 slide효과가 들어가도록 하세요.            
+         */
+         $('.gallery li').slice(0, 4).show();
+
+         $('.more').click(function(){
+            var btn=$(this);
+            if(btn.text()=='더보기'){
+               $('.gallery li:hidden').slice(0,4).slideDown();
+               if($('.gallery li:hidden').length==0){
+                  btn.text('접기');
+               }                           
+            }else{
+               $('.gallery li').hide().slice(0, 4).show();
+               btn.text('더보기');
+            }
+         })
+      })
+   </script>
+</head>
+<body>
+   <div class="container">
+      <h2>Gallery</h2>
+      <ul class="gallery">
+         <li><img src="../img/friends_apeach.jpg" alt=""></li>
+         <li><img src="../img/friends_con.jpg" alt=""></li>
+         <li><img src="../img/friends_frodo.jpg" alt=""></li>
+         <li><img src="../img/friends_jayg.jpg" alt=""></li>
+         <li><img src="../img/friends_muzi.jpg" alt=""></li>
+         <li><img src="../img/friends_neo.jpg" alt=""></li>
+         <li><img src="../img/friends_ryan.jpg" alt=""></li>
+         <li><img src="../img/friends_tube.jpg" alt=""></li>
+      </ul>
+      <button class="more">더보기</button>
+   </div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>롤링4</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      li{list-style: none;}
+      a{text-decoration: none; color:#000;}
+      button{background: none; border:none; outline: none;}
+      section{width: 300px; margin: auto;}
+      h3{text-align: center; padding: 20px 0; border-bottom:1px solid #000;}
+      .gallery{position: relative; text-align: center;}
+      .gallery .wrap{overflow: hidden;}        
+      .gallery .wrap ul li{line-height: 30px; float: left;}        
+      .gallery button{
+         height: 30px;
+         padding: 0 10px;
+         background: #000; color:#fff;
+      }
+      .pagination{margin-top: 10px;}
+      .pagination button.active{background: #fc0; color:#000;}
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         var liWidth;
+         var pageLength=$('.pagination button').length;
+         $(window).resize(function(){
+            liWidth=$('.wrap').width();
+            $('.gallery li').width(liWidth);
+            $('.gallery ul').width(liWidth*pageLength);
+         }).resize();
+
+         //페이지 인덱스-현재 페이지 
+         var pageIndex=0; 
+         //최대 인덱스 
+         var maxIndex=pageLength-1;
+
+         //페이지의 인덱스를 변경하는 함수 
+         function indexChange(arrow){//방향에 대한 값을 받는다.
+            if(arrow=='next'){//다음이미지를 본다.
+               pageIndex++;//인덱스를 1씩 증가시킨다.
+            }else{//이전이미지를 본다.
+               pageIndex--;//인덱스를 1씩 감소시킨다.
+            }
+            // 페이지인덱스가 최대값보다 커지면 최소값으로 변경 0 
+            if(pageIndex > maxIndex){pageIndex=0;}
+            // 페이지인덱스가 최소값보다 작아지면 최대값으로 변경 7
+            if(pageIndex < 0){pageIndex=maxIndex;}
+            // console.log('현재페이지 인덱스는?',pageIndex);   
+            $('.pagination button').removeClass()
+             .eq(pageIndex).addClass('active');         
+         }
+
+         //이전, 다음버튼을 눌렀을 때 
+         $('.gallery .arrow').click(function(){
+            $('#play-state').text('재생');
+            //자동재생 멈추기
+            clearInterval(play);
+            var arrow=$(this).attr('id');
+            indexChange(arrow)
+            // 방향에 따라 애니메이션 처리하기 
+            if(arrow=='next'){
+               $('.gallery ul').stop(true).animate({
+                  'margin-left':-liWidth
+               },function(){
+                  $('.gallery ul li').first().appendTo('.gallery ul');
+                  $('.gallery ul').css('margin-left',0);
+               })
+            }else{
+               $('.gallery ul').css('margin-left',-liWidth);
+               $('.gallery ul li').last().prependTo('.gallery ul');
+               $('.gallery ul').stop(true).animate({'margin-left':0})
+            }
+         })
+
+         //정지/재생버튼 
+         $('#play-state').click(function(){
+            clearInterval(play);
+            if($(this).text()=='정지'){
+               $(this).text('재생');
+            }else{
+               $(this).text('정지');
+               play=setInterval(move,2000);
+            }
+         })
+
+         //페이지네이션 
+         $('.pagination button').click(function () { 
+            //자동재생 멈추기
+            $('#play-state').text('재생');
+             clearInterval(play);
+
+            //내가 누른 페이지네이션의 인덱스를 구한다. 
+            var index=$(this).index();
+            console.log('내가누른 페이지네이션 인덱스',index);
+            //현재 화면에 보여지고 있는 이미지가 몇번째 이미지인지 인덱스 구하기 
+            var nowIndex=$('.gallery li').eq(0).data('index');
+            console.log('현재 이미지의 인덱스',nowIndex);
+            // 내가 보고싶은 이미지의 인덱스의 현재 위치
+            var changeIndex=$('[data-index='+index+']').index();
+            console.log('내가 보고싶은 이미지의 인덱스의 현재 위치',changeIndex);
+            
+
+            // 내가 누른 페이지의 인덱스와
+            // 현재 보여지고 있는 이미지의 인덱스가 같지 않을 때만 변경 처리
+            if (index!=nowIndex) {
+                for (let index = 0; index < changeIndex; index++) {
+                    $('.gallery ul li').first().appendTo('.gallery ul');
+                }
+            }
+            //페이지네이션의 활성화 상태 변경
+            $('.pagination button').removeClass().eq(index).addClass('active');
+            // 페이지 인덱스를 내가 누를 페이지네이션의 인덱스로 변경
+            pageIndex=index;
+
+
+         });
+
+         //자동 재생 함수-기본방향은 next
+         function move(){
+            indexChange('next');
+            $('.gallery ul').stop(true).animate({
+               'margin-left':-liWidth
+            },function(){
+               $('.gallery ul li').first().appendTo('.gallery ul');
+               $('.gallery ul').css('margin-left',0);
+            })
+         } 
+
+         var play=setInterval(move,2000);
+
+      })
+   </script>
+</head>
+<body>
+   <section>
+      <h3>카카오프렌즈</h3>
+      <div class="gallery">
+         <div class="wrap">
+            <ul>
+               <!-- li[data-index=""]*8>a[href=#]>img[src="../img/friends_.jpg"] -->
+               <li data-index="0"><a href="#"><img src="../img/friends_apeach.jpg" alt=""></a></li>
+               <li data-index="1"><a href="#"><img src="../img/friends_con.jpg" alt=""></a></li>
+               <li data-index="2"><a href="#"><img src="../img/friends_frodo.jpg" alt=""></a></li>
+               <li data-index="3"><a href="#"><img src="../img/friends_jayg.jpg" alt=""></a></li>
+               <li data-index="4"><a href="#"><img src="../img/friends_muzi.jpg" alt=""></a></li>
+               <li data-index="5"><a href="#"><img src="../img/friends_neo.jpg" alt=""></a></li>
+               <li data-index="6"><a href="#"><img src="../img/friends_ryan.jpg" alt=""></a></li>
+               <li data-index="7"><a href="#"><img src="../img/friends_tube.jpg" alt=""></a></li>
+            </ul>
+         </div>
+         <button id="prev" class="arrow">이전</button>
+         <button id="next" class="arrow">다음</button>
+         <button id="play-state">정지</button>
+         <div class="pagination">
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>7</button>
+            <button>8</button>
+         </div>
+      </div>
+   </section>
+</body>
+</html>

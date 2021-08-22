@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>필터링</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        .btn{
+            float: left;
+            border:1px solid #000;
+            width: 70px;
+            height: 35px;
+        }
+        .btn.on{
+            background: #000;
+            color: #ffffff;
+        }
+        .search-form{
+            overflow: hidden;
+        }
+        .search-form input{
+            float: left;
+            height: 35px;
+            box-sizing: border-box;
+        }
+        .search-form button{
+            width: 70px;
+            height: 35px;
+            border: 1px solid #000;
+        }
+
+        .search-form .count .search-count{
+            color: blue;
+        }
+        .grid{
+            overflow: hidden;
+            clear: both;
+        }
+        .item{
+            float: left;
+            width: 25%;
+            height: 100px;
+            border:1px solid #000;
+            box-sizing: border-box;
+            transition: 0.5s;
+            transform: scale(1);
+        }
+        .item.off{
+         transform: scale(0);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script>
+        $(function() {
+            //isotope 초기화  
+            var $grid=$('.grid').isotope({
+                itemSelector:'.item'
+            })
+
+            $('.btn').click(function(e) {
+                e.preventDefault();
+                $('.btn').removeClass('on');
+                $(this).addClass('on');
+
+                var seletor=$(this).data('filter');
+                // 해당 선택자 필터링처리
+                $grid.isotope({
+                    filter:seletor
+                })
+
+                //필터링 처리하고 검색 수 갱신
+                searchCount();
+            });
+
+             //검색창에 입력한 내용과 일치하는 아이템만 보여주기 
+            $('.search-form button').click(function() {
+                var searchKeyword=$('#search').val();
+                // console.log(searchKeyword);
+
+                var qsRegex=new RegExp(searchKeyword, 'gi');
+                $grid.isotope({
+                filter:function(){
+                    return qsRegex?$(this).text().match(qsRegex):true;
+                    }
+                })
+                //검색어를 다시 입력할 수 있도록 값을 초기화하고 포커스 발생
+                $('#search').val('').focus();
+                //다시 검색 카운트 갱신
+                searchCount();
+            })
+
+            //검색된 아이템 수 체크 
+            function searchCount() {            
+                // 필터링된 아이템의 수 
+                var iso=$('.grid').data('isotope');
+                var length=iso.filteredItems.length;
+                $('.search-count').text(length);
+            }
+
+            //검색을 하지 않아도 최초에 한번 호출
+            searchCount();
+
+            //총 아이템의 수(한번만 출력)
+            $('.total').text($('.grid .item').length);
+        })
+    </script>
+</head>
+<body>
+    <button class="btn on" data-filter="*">모두보기</button>
+   <button class="btn " data-filter=".a">A</button>
+   <button class="btn " data-filter=".b">B</button>
+   <button class="btn " data-filter=".c">C</button>
+
+   <!-- 검색기능 추가 -->
+   <div class="search-form">
+       <input type="text" id="search">
+       <button>검색</button>
+   </div>
+   <span class="count">
+       total <span class="total">0</span>/ search:<span class="search-count">0</span>
+   </span>
+
+
+   <div class="grid">
+      <!-- div[class=item]{a-1}*8 -->
+      <div class="item a">a-1</div>
+      <div class="item b">b-1</div>
+      <div class="item c">c-1</div>
+      <div class="item a">a-2</div>
+      <div class="item a">a-3</div>
+      <div class="item b">b-2</div>
+      <div class="item b">b-3</div>
+      <div class="item c">c-2</div>
+   </div>
+   <div>다음컨텐츠</div>
+</body>
+</html>

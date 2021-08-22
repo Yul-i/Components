@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>탭메뉴</title>
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+   <style>
+      *{margin: 0; padding: 0;}
+      li{list-style: none;}
+      a{text-decoration: none; color:#000;}
+      body{max-width: 800px; margin: auto;}
+
+      .tab-nav{
+         overflow: hidden; 
+         border:1px solid #000;         
+      }
+      .tab-nav li{float: left; width: 25%;}
+      .tab-nav li a{
+         position: relative;
+         display: block;    
+         padding-left: 10px;        
+         border-right: 1px solid #000;         
+         line-height: 40px;
+      }
+      .tab-nav li a i{
+         position: absolute;
+         right:10px; 
+         top:50%; 
+         transform: translateY(-50%);
+      }
+      .tab-nav li:last-child a{
+         border-right: 0;
+      }
+      .tab-nav li a.active{
+         background: #555; color:#fff;
+      }
+
+      .tab-contents{position: relative;}
+      .tab-contents > div{
+         position: absolute;
+         width: 100%;
+         height: 100px;
+         display: none;
+      }
+      .tab-contents > div:nth-child(1){background: #fa8072;}
+      .tab-contents > div:nth-child(2){background: #ff9d93;}
+      .tab-contents > div:nth-child(3){background: #ffb4ac;}
+      .tab-contents > div:nth-child(4){background: #ffd7d3;}
+
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         /*
+            [문제] 
+            탭메뉴를 누르면 해당 컨텐츠 내용이 나오도록 하세요.
+            attr(), addClass(), removeClass(), slideDown(), slideUp()사용
+
+            1. tab-nav의 a를 클릭한다. 
+            2. 내가 클릭한 a의 href값(아이디값)을 구해서 변수에 저장한다.
+               변수의 이름은 id 
+            3. tab-nav의 모든 a에 걸려있는 클래스값을 제거한다.
+            4. 내가 클릭한 a는 active클래스를 추가한다.
+            5. tab-contents의 모든 div를 숨긴다.slideUp()
+            6. 변수에 저장된 아이디값을 선택자로 사용하여 
+               해당 선택자를 가진 요소만 보여준다.slideDown()
+         */
+
+         $('.tab-nav a').click(function(){
+            // 아이디 선택자를 구해서 변수에 저장
+            var id=$(this).attr('href');
+            $('.tab-nav a').removeClass();
+            $(this).addClass('active');
+            $('.tab-contents > div').stop(true).slideUp(100);
+            // slideUp()이 0.1초동안 실행되고 나서 slideDown()처리
+            $(id).stop(true).delay(100).slideDown();
+         })
+      })
+   </script>
+</head>
+<body>
+   <h3>탭메뉴</h3>
+   <!-- ul>li*4>a{메뉴$} -->
+   <ul class="tab-nav">
+      <li><a href="#tab1" class="active">메뉴1 <i class="fas fa-heart"></i></a></li>
+      <li><a href="#tab2">메뉴2 <i class="fas fa-star-of-life"></i></a></li>
+      <li><a href="#tab3">메뉴3 <i class="fas fa-air-freshener"></i></a></li>
+      <li><a href="#tab4">메뉴4 <i class="fab fa-apple"></i></a></li>
+   </ul>
+   <div class="tab-contents">
+      <!-- div[id=]*4{메뉴$입니다.} -->
+      <div id="tab1" style="display: block;">메뉴1 내용입니다.</div>
+      <div id="tab2">메뉴2 내용입니다.</div>
+      <div id="tab3">메뉴3 내용입니다.</div>
+      <div id="tab4">메뉴4 내용입니다.</div>
+   </div>
+</body>
+</html>

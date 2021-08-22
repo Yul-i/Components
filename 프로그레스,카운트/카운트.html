@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>카운트</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      .container{
+         width: 500px;
+         margin: auto;
+         text-align: center;
+      }
+      h2{line-height: 100px;}
+      ul{overflow: hidden;}
+      ul li{
+         float: left;
+         width: 33.33%;
+         list-style: none;
+         font-size: 3em;
+      }
+      ul li span{color:#a5a5a5; font-weight: bold;}
+      ul li span.finish{
+         color:coral;
+      }      
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+          $('.count').each(function(){
+             $(this).animate({
+               // 애니메이션이 끝났을 때 최종적으로 찍혀야하는 값을 설정
+               count:$(this).data('count')
+             },{
+                duration:2000,//2초짜리 애니메이션 
+                step:function(now){//now매개변수는 0~최대값까지 변하는 숫자가 들어있다.
+                  //now는 정수가 아닌 실수로 나타나고 있으므로 정수값으로 변환처리해야함
+                  now=Math.round(now);
+                  $(this).text(now);
+                },
+               // 애니메이션이 종료 후 색상 변경하기
+                complete:function(){
+                   $(this).addClass('finish')
+                }
+             })
+          })  
+      })
+   </script>
+</head>
+<body>
+   <div class="container">
+      <h2>Count</h2>
+      <!-- ul>li*3>span[class="count"][data-count=""] -->
+      <ul>
+         <li><span class="count" data-count="200">0</span>개</li>
+         <li><span class="count" data-count="123">0</span>개</li>
+         <li><span class="count" data-count="2520">0</span>개</li>
+      </ul>
+   </div>
+</body>
+</html>

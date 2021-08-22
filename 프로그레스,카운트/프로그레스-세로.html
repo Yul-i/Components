@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>프로그레스-세로</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      .container{
+         width: 600px;
+         margin: auto;
+      }
+      .progress{
+         position: relative;         
+         margin-top:100px;
+         float: left;
+         width: 33.33%;
+         height: 300px;
+         text-align: center;
+      }
+      .progress .percent{
+         position: absolute;
+         left: 0;
+         bottom: 0%;
+         width: 60px;
+         padding: 10px 0;
+         background: coral;
+         color: #fff;
+         transform: translateY(50%);       
+      }
+      .progress .bar{
+         position: relative;
+         display: inline-block;
+         width: 20px;
+         height: 100%;         
+         border:1px solid #000;
+         background: #eee;
+      }
+      .progress .bar .fill{
+         position: absolute;
+         left:0; 
+         /* 기준위치를 아래쪽으로 설정하면 높이가 변할 때 아래쪽에서 위쪽으로 증가함 */
+         bottom:0;
+         height: 0%;
+         width: 100%;
+         background: coral;
+      }
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         $('.progress').each(function(){
+            // percent카운트와 이동
+            $(this).find('.percent').animate({
+               // $(this)==.progress
+               bottom:$(this).data('percent')               
+            },{
+               duration:2000,
+               step:function(now){
+                  now=Math.round(now);
+                  //$(this)==.percent                  
+                  $(this).text(now+'%');
+               }
+            })
+
+            //bar 안쪽의 색상 높이 변경
+            $(this).find('.fill').animate({
+               height:$(this).data('percent')
+            },2000)
+         })
+      })
+   </script>
+</head>
+<body>
+   <div class="container">
+      <h2>progress bar - y</h2>
+      <div class="progress" data-percent="100%">
+         <span class="percent">0%</span>
+         <div class="bar"><span class="fill"></span></div>
+      </div>
+      <div class="progress" data-percent="50%">
+         <span class="percent">0%</span>
+         <div class="bar"><span class="fill"></span></div>
+      </div>
+      <div class="progress" data-percent="70%">
+         <span class="percent">0%</span>
+         <div class="bar"><span class="fill"></span></div>
+      </div>
+   </div>
+</body>
+</html>

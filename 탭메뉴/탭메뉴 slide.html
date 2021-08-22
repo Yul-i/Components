@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>탭메뉴 slide</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        a{text-decoration: none; color: #000;}
+        body{max-width: 800px; margin: auto;}
+
+        .tab-nav{overflow: hidden; border-bottom: 1px solid #000;}
+        .tab-nav li{float: left; width: 25%;}
+        .tab-nav li a{
+            display: block;
+            text-align: center;
+            line-height: 40px;
+        }
+        .tab-nav li a.active{
+            background: hotpink; color: #fff;
+        }
+
+        .tab-contents{position: relative;}
+        .tab-contents div{
+            position: absolute; /*absolute는 넓이 사라지니 다시 걸어주기*/
+            width: 100%;
+            height: 100px;
+        }
+        .tab-contents div:nth-child(1){background: pink;}
+        .tab-contents div:nth-child(2){background: rgba(255, 192, 197, 0.808);}
+        .tab-contents div:nth-child(3){background: rgba(255, 236, 238, 0.808);}
+        .tab-contents div:nth-child(4){background: rgba(253, 241, 242, 0.657);}
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            /*
+                [문제]
+                탭메뉴를 누르면 해당 컨텐츠 내용이 나오도록 하세요.
+
+                1. tab-nav의 a를 클릭한다.
+                2. 내가 클릭한 a의 href값(아이디값)을 구해서 변수에 저장한다.
+                   변수의 이름은 id
+                3. tab-nav의 모든 a에 걸려있는 클래스값을 제거한다.
+                4. 내가 클릭한 a는 active 클래스를 추가한다.
+                5. tab-contents의 모든 div을 숨긴다.
+                6. 변수에 저장된 아이디값을 선택자로 사용하여
+                   해당 선택자를 가진 요소만 보여준다.
+            */ 
+
+            $('.tab-nav a').click(function(){
+                // 아이디 선택자를 구해서 변수에 저장
+                var id=$(this).attr('href');
+                // console.log(id);
+                $('.tab-nav a').removeClass('active');//removeClass()로 써도 됨
+                $(this).addClass('active');
+
+                $('.tab-contents div').stop(true).slideUp(100);
+                // fadeOut()이 0.1초동안 실행되고 나서 fadeIn()처리
+                $(id).stop(true).delay(100).slideDown();
+            })
+        })
+    </script>
+</head>
+<body>
+    <h3>탭메뉴</h3>
+    <ul class="tab-nav">
+        <li><a href="#tab1" class="active">메뉴1</a></li>
+        <li><a href="#tab2">메뉴2</a></li>
+        <li><a href="#tab3">메뉴3</a></li>
+        <li><a href="#tab4">메뉴4</a></li>
+    </ul>
+    <div class="tab-contents">
+        <div id="tab1" style="display: block;">메뉴1 내용입니다.</div>
+        <div id="tab2">메뉴2 내용입니다.</div>
+        <div id="tab3">메뉴3 내용입니다.</div>
+        <div id="tab4">메뉴4 내용입니다.</div>
+    </div>
+</body>
+</html>

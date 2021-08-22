@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>특정위치부터 스크롤 따라다니기</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      body{
+         height: 3000px;
+      }
+      .box{
+         position: absolute;
+         right:10px;
+         top:calc(100vh - 210px);
+         width: 200px;
+         height: 200px;
+         background: coral;
+      }
+      .a{height: 100vh; background: green;}
+      .b{height: 500px; background: lightskyblue;}
+
+      .btn-group{
+         position: fixed;
+         bottom: 0;
+      }
+      .btn-group button{
+         border: 0;
+         background: #000;
+         color: #fff;
+         padding: 10px;
+      }
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         
+         //위치 재지정
+         function rePosition(){
+            // 스크롤시 스크롤 y축의 위치값 구하기 
+            var scrollTop=$(window).scrollTop();
+            // b영역의 시작위치값 
+            var bPositionTop=$('.b').offset().top;
+            // box의 위쪽 위치값 
+            var boxPositionTop=$('.a').height()-$('.box').height()-10;
+
+            if(bPositionTop < scrollTop){
+               $('.box').stop(true).animate({
+                  top:scrollTop+10
+               },200)
+            }else{
+               $('.box').stop(true).animate({
+                  top:boxPositionTop
+               },200)
+            }
+         }
+
+         // $(window).scroll(function(){
+         //    rePosition()
+         // }).scroll();
+
+          $(window).scroll(rePosition).scroll();
+         $(window).resize(rePosition).resize();
+
+         // 버튼을 눌렀을 때 해당위치로 이동하기
+         $('.btn-group button').click(function() {
+            var position=$(this).data('position');
+            console.log(position);
+
+            var positionTop=0;//이동해야할 위치값
+            if (position=='top') {
+               positionTop=0;
+            } else if(position=='bottom'){
+               positionTop=$(document).height()-$(window).height()
+            }else{
+               positionTop=$(position).offset().top
+            }
+
+            $('html,body').stop(true).animate({
+               scrollTop:0
+         })
+      })
+   </script>
+</head>
+<body>
+   <div class="box">박스</div>
+   <article class="a"></article>
+   <article class="b"></article>
+   <div class="btn-group">
+      <button data-position=".a">a영역으로 가기</button>
+      <button data-position=".b">b영역으로 가기</button>
+      <button data-position="top">위로 가기</button>
+      <button data-position="bottom">아래로 가기</button>
+   </div>
+</body>
+</html>

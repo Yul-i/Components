@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>툴팁</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        section{
+            width: 800px; 
+            margin: auto;
+            padding-bottom: 50px;
+            border: 1px solid #000000; 
+            text-align: center;
+        }
+        h3{padding-bottom: 50px;}
+
+        .tooltip{
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip button{
+            padding: 10px 20px;
+            border: none;
+            background: #000;
+            color: #ffffff;
+        }
+        .tooltip .content{
+            position: absolute;
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #000000;
+            background: #fff;
+            /* opacity: 0;
+            transition: 0.3s; */
+        }
+        .tooltip:hover .content{
+            opacity: 1;
+        }
+        
+        /* 화살표를 만들기 위한 공통규칙 */
+        .tooltip .content::after{
+            content: '';
+            position: absolute;
+            border: 10px solid #000000; /*네모네모 만드는 방법*/
+        }
+        .tooltip .left{
+            right: 90px;
+            top: 50%; 
+            transform: translateY(-50%);
+        }
+        .tooltip .left::after{
+            border-color: transparent transparent transparent #000000; /*색 각 방향으로 넣어보고?*/
+            border-right: 0; /*선택범위 줄여줌*/
+            right: -10px;
+        }
+        .tooltip .top{
+            left: 50%;
+            bottom: 60px;
+            transform: translateX(-50%)
+        }
+        .tooltip .top::after{
+            border-color: #000 transparent transparent transparent;
+            border-bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+        }
+        .tooltip .bottom{
+            left: 50%;
+            top: 60px;
+            transform: translateX(-50%)
+        }
+        .tooltip .bottom::after{
+            border-color: transparent transparent#000 transparent;
+            border-top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -10px;
+        }
+        .tooltip .right{
+            left: 100px;
+            top: 50%; 
+            transform: translateY(-50%);
+        }
+        .tooltip .right::after{
+            border-color: transparent #000  transparent transparent;
+            border-left: 0;
+            left: -10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <section>
+        <h3>툴팁</h3>
+        <div class="tooltip">
+            <button>왼쪽</button>
+            <div class="content left">왼쪽에 툴팁이 뜬다</div>
+        </div>
+        <div class="tooltip">
+            <button>위쪽</button>
+            <div class="content top">위쪽에 툴팁이 뜬다</div>
+        </div>
+        <div class="tooltip">
+            <button>밑쪽</button>
+            <div class="content bottom">밑쪽에 툴팁이 뜬다</div>
+        </div>
+        <div class="tooltip">
+            <button>오른쪽</button>
+            <div class="content right">오른쪽에 툴팁이 뜬다</div>
+        </div>
+    </section>
+</body>
+</html>

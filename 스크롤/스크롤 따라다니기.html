@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>스크롤 따라다니기</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        body{
+            height: 3000px;
+        }
+        .box{
+            position: absolute;
+            right: 10px;
+            top: 50px;
+            width: 200px;
+            height: 200px;
+            background: coral;
+        }
+        
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            //현재 박스의 위치(스크롤이 발생되기 전 최초에 한번 구한다.)
+            var boxPositionTop=$('.box').offset().top;
+            console.log('현재 박스의 위쪽 위치 :'+boxPositionTop);
+            // 스크롤이 발생될 때
+            $(window).scroll(function() {
+                var scrollTop=$(this).scrollTop();
+                console.log('스크롤 발생! 스크롤 y축 위치 :',scrollTop);
+                $('.box').stop(true).animate({//stop(true)는 클리어처리
+                    top:scrollTop+boxPositionTop
+                },500)
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="box">박스</div>
+</body>
+</html>

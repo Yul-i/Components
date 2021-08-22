@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>드롭다운</title>
+   <style>
+      *{margin: 0; padding: 0;}
+      li{list-style: none;}
+      button{border:0;}
+      header{
+         position: relative;
+         height: 100px;
+         background: #000;
+      }
+      footer{
+         position: absolute;
+         width: 100%;
+         height: 100px;
+         bottom:0;
+         background: #000;
+      }
+
+      .select-wrap{
+         position: absolute;
+      }
+      .select-wrap button{
+         width: 100px; 
+         height: 40px;
+         background: #fff;
+      }
+      .select-wrap ul{
+         display: none;
+         position: absolute;
+         width: 100%;
+         background: #ccc;         
+      }
+      .select-wrap ul li a{
+         display: block;
+         color:#000;
+         text-decoration: none;
+         line-height: 40px;
+         text-align: center;
+      }
+      .select-wrap ul li a.active{
+         background: coral;         
+      }
+      .left{top:20px; left:20px;}
+      .right{top:20px; right:20px;}
+      .drop-down ul{top:40px;}
+      .drop-up ul{bottom:40px;}
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         
+      })
+   </script>
+</head>
+<body>
+   <header>
+      <div class="select-wrap drop-down left">
+         <button>캐릭터선택</button>
+         <ul>
+            <li><a href="#">라이언</a></li>
+            <li><a href="#">어피치</a></li>
+            <li><a href="#">프로도</a></li>
+            <li><a href="#">네오</a></li>
+         </ul>
+      </div>
+
+      <div class="select-wrap drop-down right">
+         <button>언어선택</button>
+         <ul>
+            <li><a href="#" class="active">한국어</a></li>
+            <li><a href="#">영어</a></li>
+            <li><a href="#">일본어</a></li>
+            <li><a href="#">중국어</a></li>
+         </ul>
+      </div>
+   </header>
+
+   <footer>
+      <div class="select-wrap drop-up left">
+         <button>캐릭터선택</button>
+         <ul>
+            <li><a href="#">라이언</a></li>
+            <li><a href="#">어피치</a></li>
+            <li><a href="#">프로도</a></li>
+            <li><a href="#">네오</a></li>
+         </ul>
+      </div>
+      <div class="select-wrap drop-up right">
+         <button>캐릭터선택</button>
+         <ul>
+            <li><a href="#">라이언</a></li>
+            <li><a href="#">어피치</a></li>
+            <li><a href="#">프로도</a></li>
+            <li><a href="#">네오</a></li>
+         </ul>
+      </div>
+   </footer>
+</body>
+</html>

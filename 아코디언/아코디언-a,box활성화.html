@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>아코디언</title>
+   <style>
+       *{margin: 0; padding: 0;}
+      li{list-style: none;}
+      a{text-decoration: none; color:#000;}
+      body{max-width: 500px; margin: auto;}
+      
+      .accordion{
+         border:1px solid #000;
+      }
+      .accordion li{
+         border-bottom:1px solid #000;
+      }
+      .accordion li:last-child{
+         border-bottom:0;
+      }
+      .accordion li a{
+         display: block;
+         padding: 10px;
+         background: #eee;
+      }
+      .accordion li a.active{
+         background: salmon;
+         color:#fff;
+      }
+      .accordion li .box{
+         display: none;
+         padding: 10px;
+         border-top:1px solid #000;
+      }
+      .accordion li .box.active{
+         display: block;
+      }
+
+   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script>
+      $(function(){
+         /*
+            [문제] accordion a(질문)을 누르면 해당 답변이 보여지도록 하세요. 
+            *단 다른 답변은 자동으로 닫혀야한다. 
+
+            <active규칙이 a와 box에 걸리는 경우>
+            next(), removeClass(), addClass()를 사용        
+         */ 
+         $('.accordion a').click(function(){
+            $('.accordion a, .accordion .box').removeClass('active');
+            $(this).addClass('active');
+            $(this).next().addClass('active');
+         })
+      })
+   </script>
+</head>
+<body>
+   <h3>아코디언</h3>
+   <ul class="accordion">
+      <li>
+         <a href="#" class="active">질문1</a>
+         <div class="box active">답변1입니다.</div>
+      </li>
+      <li>
+         <a href="#">질문2</a>
+         <div class="box">답변2입니다.</div>
+      </li>
+      <li>
+         <a href="#">질문3</a>
+         <div class="box">답변3입니다.</div>
+      </li>
+   </ul>
+</body>
+</html>

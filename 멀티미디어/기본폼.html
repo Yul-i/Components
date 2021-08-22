@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>영상컨트롤</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        *{margin: 0; padding: 0;}
+        body{font-family: sans-serif;}
+        button{background: none; border: none; outline: none; cursor: pointer;}
+
+        .center{
+            width: 700px;
+            margin: auto;
+            text-align: center;
+        }
+        h3{
+            margin-bottom: 20px;
+            color: #4d4d4d;
+            font-size: 30px;
+        }
+        video{
+            width: 100%;
+            height: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        /* 풀스크린일 경우 스타일 */
+
+        .fullscreen .video{
+         position: fixed;
+         width: 100%;
+         height: 100%;
+         left:0; 
+         top:0;
+         background: #fff;
+      }
+      .fullscreen .video .wrap{
+         position: absolute;
+         top:0; 
+         left:0; 
+         right:0;
+         bottom:30px;
+         background: #000;
+      }
+      .fullscreen .video .control{
+         position: absolute;
+         bottom:0;
+         width: 100%;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            //비디오, 오디오 제어하기 https://www.w3schools.com/tags/ref_av_dom.asp
+
+            // 비디오 객체 가져오기
+            // var player=$('video')[0]; 제이쿼리 [0] 붙여야 dom접근가능
+            var player=document.getElementById('video');
+
+            // 재생/일시정지
+            $('#btn-play-pause').click(function(e) {
+              e.preventDefault();
+              if (player.paused) {//일시정지 상태면
+                  player.play();
+                  $(this).find('i').text('pause');
+              } else{//재생상태
+                  player.pause();
+                  $(this).find('i').text('play_arrow');
+              }  
+            });
+
+            //replay
+            $('#btn-replay').click(function(e) {
+              e.preventDefault();
+              player.currentTime=0;//시간 0으로 초기화
+              player.play();
+              $('#btn-play-pause i').text('pause');
+            });
+
+            // mute
+            $('#btn-volume').click(function(e) {
+              e.preventDefault();
+              if (player.muted) {//음소거 상태면
+                  player.muted=false;//음소거 상태를 해제
+                  $(this).find('i').text('volume_up');
+              } else {//재생상태
+                  player.muted=true;//음소거 상태를 활성화
+                  $(this).find('i').text('volume_off');
+              }  
+            });
+
+            //전체화면/기본화면 
+            $('#btn-fullscreen').click(function (e) { 
+                e.preventDefault();
+                if($(this).text()=='fullscreen'){//아이콘이 풀스크린이면
+                    $('body').addClass('fullscreen');
+                    $(this).find('i').text('fullscreen_exit');
+                }else{
+                    $('body').removeClass('fullscreen');
+                    $(this).find('i').text('fullscreen');
+                }
+            });
+         
+
+        })
+    </script>
+</head>
+<body>
+    <div class="center">
+        <h3>STARBUCKS RESERVE</h3>
+        <div class="video"></div>
+            <div  class="wrap">
+                <video src="starbuck_reserve.mp4" id="video" controls></video>
+            </div>
+            <!-- 동영상 컨트롤러 -->
+            <div class="control">
+                <button id="btn-play-pause"><i class="material-icons">play_arrow</i></button>
+                <button id="btn-replay"><i class="material-icons">replay</i></button>
+                <button id="btn-volume"><i class="material-icons">volume_up</i></button>
+                <button id="btn-fullscreen"><i class="material-icons">fullscreen</i></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

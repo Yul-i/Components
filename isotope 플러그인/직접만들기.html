@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>필터링</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        .btn{
+            border:1p solid #000;
+            width: 70px;
+            height: 35px;
+        }
+        .btn.on{
+            background: #000;
+            color: #ffffff;
+        }
+        .grid{
+            overflow: hidden;
+            clear: both;
+        }
+        .item{
+            float: left;
+            width: 25%;
+            height: 100px;
+            border:1px solid #000;
+            box-sizing: border-box;
+            transition: 0.5s;
+            transform: scale(1);
+        }
+        .item.off{
+         transform: scale(0);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    $(function(){
+        $('.btn').click(function (e) { 
+            e.preventDefault();
+            $('.btn').removeClass('on');
+            $(this).addClass('on');
+
+             //내가 누른 버튼에서 선택자를 가져오고
+             var selector=$(this).data('filter');
+
+            //  //  전체 item을 숨킨후 
+            // //  사라지는데 0.1초
+            //  $('.item').fadeOut(100);
+            // // 해당 선택자만 다시 보여준다.
+            // // 보여지기 위해서 0.1초 기다리다 0.5초동안 나타난다
+            // $('.grid '+selector).delay(100).fadeIn(500);
+
+            // off규칙 사용하기 
+            $('.item').addClass('off').fadeOut(function(){
+               //fadeOut이 끝난 후 
+               setTimeout(function(){
+                  //fadeOut으로 인해 숨겨진 컨텐츠를 보여주고 off효과를 제거한다.
+                  $('.grid '+selector).show().removeClass('off');
+               },500)
+            });
+        });
+    })
+    </script>
+</head>
+<body>
+    <button class="btn on" data-filter="*">모두보기</button>
+   <button class="btn " data-filter=".a">A</button>
+   <button class="btn " data-filter=".b">B</button>
+   <button class="btn " data-filter=".c">C</button>
+   <div class="grid">
+      <!-- div[class=item]{a-1}*8 -->
+      <div class="item a">a-1</div>
+      <div class="item b">b-1</div>
+      <div class="item c">c-1</div>
+      <div class="item a">a-2</div>
+      <div class="item a">a-3</div>
+      <div class="item b">b-2</div>
+      <div class="item b">b-3</div>
+      <div class="item c">c-2</div>
+   </div>
+   <div>다음컨텐츠</div>
+</body>
+</html>

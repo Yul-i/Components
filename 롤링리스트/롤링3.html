@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>document</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        a{text-decoration: none; color: #000;}
+        section{
+            max-width: 500px;
+            margin: auto;
+        }
+        h3{
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #000;
+        }
+        .notice{
+            position: relative;
+            /* overflow: hidden; */
+            
+        }
+        .notice .wrap{
+            overflow: hidden;
+            height: 30px;
+            margin: 0 50px;
+            }
+        .notice .wrap li{line-height: 30px; float: left; width: 400px;}
+        .notice .wrap ul li span{float: right;}
+        
+        .notice button{
+            position: absolute;
+            top: 0;
+            width: 40px; height: 30px;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+        }
+        #prev{
+            left: 0;
+            float: left;
+        }
+        #next{
+            right: 0;
+            float: right;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+
+            // 화면이 사이즈가 변경되면 ul, li 사이즈 갱신
+            var liWidth; //전역변수
+            $(window).resize(function() {
+                // wrap의 넓이를 구한다.
+                var wrapW=$('.wrap').width();
+                //li의 넓이를 변경한다.
+                $('.notice li').width($(wrapW));
+                //ul의 넓이를 변경한다. wrap의 넓이 * 리스트의 수
+                $('.notice ul').width(wrapW*$('.notice li').length);
+                // liWidth의 값은 wrapW와 같기 때문에 대입을 한다.
+                liWidth=wrapW;
+            }).resize();
+
+            // 리스트를 움직이는 함수 - 다음 컨텐츠를 볼 수 있도록 처리
+          function move() {
+            //   리스트를 감싸고 있는 ul이 왼쪽 방향으로 li길이만큼 움직인다.
+              $('.notice ul').stop(true).animate({
+                  'margin-left':-liWidth
+              },function() {//다음처리는 애니메이션 효과가 없다.
+                // 애니메이션이 종료된 후 첫번째 리스트를 마지막 위치로 이동
+                $('.notice ul li').first().appendTo('.notice ul');
+                // ul의 상태를 초기화 해야한다. margin-left를 0으로 변경
+                $('.notice ul').css('margin-left',0);
+              })
+            } 
+
+            // 2초마다 move함수를 실행하도록 한다.
+            var play=setInterval(move,2000);
+
+            // notice영역에 마우스를 올리면 멈추고 벗어나면 다시 실행
+            $('.notice').on({
+            mouseenter:function(){
+                // console.log('멈춘다.');
+                
+               clearInterval(play);
+            },
+            mouseleave:function(){
+                // console.log('실행한+다.');
+               play=setInterval(move, 2000);
+            }
+         })
+
+            //  버튼을 눌렀을 때 해당 방향으로 리스트를 하나씩 이동 처리 
+            $('.notice button').click(function() {
+                if ($(this).attr('id')=='next') {
+                    move();
+                }else{//prev 이전 컨텐츠를 볼 수 있도록 이동
+                    /*
+                        ul을 오른쪽 방향에서 왼쪽 방향으로 리스트 넓이만큼 이동시키고
+                        동시에 마지막 리스트를 첫번째 자식 위치에 붙인다.
+                        ul의 아래쪽방향으로 움직일 수 있도록
+                        margin-left의 값을 0으로 애니메이션 처리
+                    */ 
+                    $('.notice ul').css('margin-left', -liWidth);
+                    $('.notice ul li').last().prependTo('.notice ul')
+                    $('.notice ul').stop(true).animate({'margin-left':0})
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <section>
+        <h3>공지사항</h3>
+        <div class="notice">
+            <div class="wrap">
+                <ul>
+                    <li><a href="#">공지사항5</a><span>2019.12.14</span></li>
+                    <li><a href="#">공지사항4</a><span>2019.12.13</span></li>
+                    <li><a href="#">공지사항3</a><span>2019.12.12</span></li>
+                    <li><a href="#">공지사항2</a><span>2019.12.11</span></li>
+                    <li><a href="#">공지사항1</a><span>2019.12.10</span></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button id="prev">이전</button>
+                <button id="next">다음</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
